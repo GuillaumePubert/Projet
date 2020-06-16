@@ -13,14 +13,15 @@ def affichage_fichier_stl(lien) :
     axes.add_collection3d(mplot3d.art3d.Poly3DCollection(fichier.vectors))
     scale = fichier.points.flatten()
     axes.auto_scale_xyz(scale, scale, scale)
-   # pyplot.show()
+    #pyplot.show()
     return a,normale
 
 
 
 def CalculForce(a,normale,hauteur):
     F_Archimede=0 #N
-    F_Pression=0 #N
+    F_Poids=0 #N
+    F_tot=0 #N
     Rho=1000 #g/L
     g=9.81 #m/s²
     Stot=0
@@ -50,14 +51,28 @@ def CalculForce(a,normale,hauteur):
             Stot_dans_eau+=Ds
             Nb_facettes_dans_eau+=1
             F_Archimede+=Rho*g*Zfk*Ds
-            print(Zfk,Ds)
+            #print(Zfk,Ds)
         else : F_Archimede+=0
         """calcule de la force de pression de la coque"""
-        masse=160 #g
-        F_Pression=masse*g
-    return F_Pression,F_Archimede,Stot,Nb_facettes_dans_eau,Stot_dans_eau
+        masse=1600 #g
+        F_Poids=masse*g
+        F_tot=F_Poids+F_Archimede
+    return F_tot,F_Poids,F_Archimede,Stot,Nb_facettes_dans_eau,Stot_dans_eau
 
 
+def Dicho(Haut, Bas, Precision,a,normale):
+    ecart=Haut-Bas
+    Zmilieu=1000
+    while ecart>Precision:
+        Zmilieu=(Haut+Bas)/2
+        difference=CalculForce(a,normale,Zmilieu)[0]
+        if difference>0 :
+            Haut=Zmilieu
+        else : Bas=Zmilieu
+        ecart=Haut-Bas
+    return Zmilieu
 
 #affichage_fichier_stl('V_HULL.stl')
-print(CalculForce(affichage_fichier_stl('Rectangular_HULL.stl')[0],affichage_fichier_stl('Rectangular_HULL.stl')[1],-0.02))
+#print(CalculForce(affichage_fichier_stl('Rectangular_HULL.stl')[0],affichage_fichier_stl('Rectangular_HULL.stl')[1],-0.2))
+
+print(Dicho(2,-2,0.01,affichage_fichier_stl('Rectangular_HULL.stl')[0],affichage_fichier_stl('Rectangular_HULL.stl')[1]))
