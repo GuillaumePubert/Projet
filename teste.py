@@ -16,6 +16,10 @@ def affichage_fichier_stl(lien) :
     #pyplot.show()
     return a,normale
 
+def Chgt_Hauteur_Bateau(hauteur,a):
+    for n in range(0,len(a)):
+        a[n]+=hauteur
+    return a
 
 def Calcul_Surface_Facette(a,n):
     U=outil.calculVecteur(a[n][0],a[n][1])
@@ -49,6 +53,7 @@ def Calcul_VectF_Archimede(a,normale,Rho,g):
             Vect_Archimede+=0
     return Vect_Archimede
 
+
 def Calcul_VectFPoids(masse,g):
     Vect_Poids=(0,0,-1*masse*g)
     return Vect_Poids
@@ -61,6 +66,12 @@ def Norme_Archimede(a,normale,Rho,g):
     Norme_Archimede=np.linalg.norm(Calcul_VectF_Archimede(a,normale,Rho,g))
     return Norme_Archimede
 
+
 def Calcul_Force_Total(masse,g,a,normale,Rho):
     difference= Norme_Archimede(a,normale,Rho,g)-Norme_Poids(masse,g)
     return difference
+
+lien='Rectangular_HULL.STL'
+print(Calcul_Force_Total(1000,9.81,Chgt_Hauteur_Bateau(-0.5,affichage_fichier_stl(lien)[0]),affichage_fichier_stl(lien)[1],1000))
+#print(Chgt_Hauteur_Bateau(-0.1,affichage_fichier_stl(lien)[0]))
+#Calcul_VectF_Archimede(Chgt_Hauteur_Bateau(-0.9,affichage_fichier_stl(lien)[0]),affichage_fichier_stl(lien)[1],1000,9.81)
