@@ -71,7 +71,9 @@ def Calcul_Force_Total(masse,g,a,normale,Rho):
     difference= Norme_Archimede(a,normale,Rho,g)-Norme_Poids(masse,g)
     return difference
 
-lien='Rectangular_HULL.STL'
-print(Calcul_Force_Total(1000,9.81,Chgt_Hauteur_Bateau(-0.5,affichage_fichier_stl(lien)[0]),affichage_fichier_stl(lien)[1],1000))
+rectangle='Rectangular_HULL.STL'
+v='V_HULL.STL'
+cylindre='Cylindrical_HULL.STL'
+print(Calcul_Force_Total(1000,9.81,Chgt_Hauteur_Bateau(-0.5,affichage_fichier_stl(rectangle)[0]),affichage_fichier_stl(rectangle)[1],1000))
 #print(Chgt_Hauteur_Bateau(-0.1,affichage_fichier_stl(lien)[0]))
 #Calcul_VectF_Archimede(Chgt_Hauteur_Bateau(-0.9,affichage_fichier_stl(lien)[0]),affichage_fichier_stl(lien)[1],1000,9.81)
